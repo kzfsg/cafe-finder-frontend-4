@@ -51,6 +51,24 @@
   background: hsl(0 0% 90%);
 }
 
+.search-button {
+  background: #d74f00;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 250ms ease;
+  margin-left: 8px;
+}
+
+.search-button:hover {
+  background: #ea6f31;
+}
 
 .search-label {
   font-size: 0.65rem;
