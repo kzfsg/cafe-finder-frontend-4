@@ -346,39 +346,7 @@ body {
   width: 100%;
 }
 
-.search-icon {
-  position: absolute;
-  left: 12px;
-  color: #aaa;
-  pointer-events: none;
-  z-index: 1;
-}
 
-.search-input {
-  flex-grow: 1;
-  padding: 10px 15px 10px 40px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  font-size: 16px;
-  background-color: white;
-  color: #333;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-/* Placeholder styling */
-.search-input::placeholder {
-  font-family: 'nunitoItalic';
-  color: #aaa;
-  font-style: italic;
-}
 
 /* Search button styles removed */
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './../styles/SearchBar.css';
-import { IconSearch, IconFilter, IconThumbUp, IconMapPin } from '@tabler/icons-react';
+import { IconFilter, IconThumbUp, IconMapPin, IconSearch } from '@tabler/icons-react';
 import { Popover, Stack, Text, Loader, SegmentedControl, TextInput, Select, Checkbox } from '@mantine/core';
 import { getCurrentLocation } from '../utils/geolocation';
 
@@ -25,7 +25,6 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
-  const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<FilterOptions>({
     location: '',
     wifi: false,
@@ -42,12 +41,11 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(query, { ...filters });
+    onSearch('', { ...filters });
   };
 
   const handleFilterChange = (updatedFilters: FilterOptions) => {
     setFilters(updatedFilters);
-    onSearch(query, updatedFilters);
   };
 
   const handleGetCurrentLocation = async () => {
@@ -66,7 +64,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
       };
       
       setFilters(updatedFilters);
-      onSearch(query, updatedFilters);
+      // Don't trigger search automatically
     } catch (error) {
       console.error('Error getting location:', error);
       // Reset nearMe on error
@@ -79,17 +77,6 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
 
   return (
     <form className="search-bar" onSubmit={handleSubmit}>
-      <div className="search-input-container">
-        <IconSearch size={16} className="search-icon" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
-          placeholder="Search for cafes..."
-          className="search-input"
-          aria-label="Search"
-        />
-      </div>
       
       <Popover opened={activeFilter === 'location'} onChange={(o) => setActiveFilter(o ? 'location' : null)}>
         <Popover.Target>
