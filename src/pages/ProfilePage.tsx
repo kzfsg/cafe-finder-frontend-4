@@ -32,7 +32,10 @@ export default function ProfilePage() {
       // Fetch user reviews
       const fetchUserReviews = async () => {
         try {
+          console.log('Fetching reviews for user ID:', user.id);
           const reviews = await reviewService.getUserReviews(user.id) as ExtendedReview[];
+          console.log('Fetched reviews:', reviews);
+          console.log('Number of reviews:', reviews.length);
           setUserReviews(reviews);
           setReviewCount(reviews.length);
         } catch (error) {

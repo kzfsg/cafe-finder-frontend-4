@@ -9,7 +9,7 @@ interface Profile {
 
 interface CafeDetails {
   name: string;
-  imageUrls?: string[];
+  image_urls?: string[];
 }
 
 interface DatabaseReview {
@@ -51,23 +51,30 @@ const reviewService = {
   // Get all reviews for a specific user with cafe details
   async getUserReviews(userId: string): Promise<Review[]> {
     try {
+      console.log('getUserReviews called with userId:', userId);
+      
       const { data, error } = await supabase
         .from('reviews')
         .select(`
           *,
           profiles:user_id(username, avatar_url),
-          cafes:cafe_id(name, imageUrls)
+          cafes:cafe_id(name, image_urls)
         `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
 
+      console.log('Supabase query result:', { data, error });
+
       if (error) throw error;
 
-      return (data as DatabaseReview[]).map((review: DatabaseReview) => ({
+      const mappedReviews = (data as DatabaseReview[]).map((review: DatabaseReview) => ({
         ...review,
         cafe_name: review.cafes?.name || 'Unknown Cafe',
-        cafe_image: review.cafes?.imageUrls?.[0]
+        cafe_image: review.cafes?.image_urls?.[0]
       }));
+      
+      console.log('Mapped reviews:', mappedReviews);
+      return mappedReviews;
     } catch (error) {
       console.error('Error fetching user reviews:', error);
       throw error;
