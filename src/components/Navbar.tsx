@@ -1,6 +1,6 @@
 // No need to import React with modern JSX transform
 import { Link, useNavigate } from 'react-router-dom';
-import SearchBar from './SearchBar';
+import EnhancedSearchBar from './EnhancedSearchBar';
 import UserDropdown from './UserDropdown';
 import { useAuth } from '../context/AuthContext';
 import './../App.css';
@@ -38,7 +38,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
       </div>
       
       <div className="navbar-center">
-        <SearchBar onSearch={onSearch} />
+        <EnhancedSearchBar onSearch={onSearch} />
       </div>
       
       <div className="navbar-right">
