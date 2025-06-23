@@ -6,7 +6,7 @@ import './Auth.css';
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { register } = useAuth();
+  const { register, initializeProfile } = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -58,8 +58,14 @@ const SignUp = () => {
       );
       
       if (result.user) {
-        // Registration successful and user is logged in
-        navigate(from);
+        // Registration successful, now initialize the profile as regular user
+        try {
+          await initializeProfile(formData.username, false);
+          navigate(from);
+        } catch (profileError) {
+          console.error('Profile initialization failed:', profileError);
+          setError('Account created but profile setup failed. Please contact support.');
+        }
       } else if (result.message) {
         // Email confirmation required or other message
         setError(result.message);

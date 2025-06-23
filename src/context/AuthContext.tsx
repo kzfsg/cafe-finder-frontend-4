@@ -13,6 +13,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   register: (username: string, email: string, password: string, is_merchant?: boolean) => Promise<{user: User | null, message?: string}>;
   updateProfile: (updates: Partial<User>) => Promise<User | null>;
+  initializeProfile: (username: string, is_merchant?: boolean) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -104,6 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Register function
   const register = async (username: string, email: string, password: string, is_merchant?: boolean) => {
     try {
+      console.log('AuthContext register called with is_merchant:', is_merchant);
       const result = await authService.register({ username, email, password, is_merchant });
       return { 
         user: result.user,
@@ -129,6 +131,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Initialize profile function
+  const initializeProfile = async (username: string, is_merchant: boolean = false): Promise<void> => {
+    try {
+      await authService.initializeProfile(username, is_merchant);
+      // Refresh user data after profile initialization
+      const userData = await authService.getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      console.error('Profile initialization error:', error);
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -138,7 +153,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       login, 
       logout, 
       register,
-      updateProfile
+      updateProfile,
+      initializeProfile
     }}>
       {children}
     </AuthContext.Provider>
