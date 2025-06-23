@@ -6,6 +6,7 @@ interface RegisterData {
   username: string;
   email: string;
   password: string;
+  is_merchant?: boolean;
 }
 
 // Interface for login data
@@ -22,6 +23,7 @@ type User = {
   avatar_url?: string;
   created_at: string;
   updated_at: string;
+  is_merchant: boolean;
   bookmarkedCafes?: any[];
   [key: string]: any; // For other properties that might be returned
 };
@@ -67,6 +69,7 @@ const formatUser = async (supabaseUser: SupabaseUser | null): Promise<User | nul
       created_at: supabaseUser.created_at || new Date().toISOString(),
       updated_at: profile?.updated_at || supabaseUser.updated_at || new Date().toISOString(),
       avatar_url: profile?.avatar_url || supabaseUser.user_metadata?.avatar_url || '',
+      is_merchant: profile?.is_merchant || false,
     };
   } catch (error) {
     console.error('Error formatting user:', error);
@@ -78,6 +81,7 @@ const formatUser = async (supabaseUser: SupabaseUser | null): Promise<User | nul
       created_at: supabaseUser.created_at || new Date().toISOString(),
       updated_at: supabaseUser.updated_at || new Date().toISOString(),
       avatar_url: supabaseUser.user_metadata?.avatar_url || '',
+      is_merchant: false,
     };
   }
 };
@@ -99,6 +103,29 @@ const authService = {
       });
 
       if (error) throw error;
+      
+      // If user is created and we have their ID, create/update their profile
+      if (authData.user) {
+        try {
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .upsert({
+              id: authData.user.id,
+              username: data.username,
+              is_merchant: data.is_merchant || false,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            });
+
+          if (profileError) {
+            console.error('Profile creation error:', profileError);
+            // Don't throw here - user is still created, just profile might be incomplete
+          }
+        } catch (profileError) {
+          console.error('Profile creation error:', profileError);
+          // Don't throw here - user is still created
+        }
+      }
       
       // The user object is available immediately, but might need email confirmation
       const formattedUser = await formatUser(authData.user);
@@ -199,6 +226,7 @@ const authService = {
         .update({
           username: updates.username,
           avatar_url: updates.avatar_url,
+          is_merchant: updates.is_merchant,
           updated_at: new Date().toISOString()
         })
         .eq('id', user.id);

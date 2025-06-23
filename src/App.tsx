@@ -9,6 +9,8 @@ import ProfilePage from './pages/ProfilePage';
 import CafeDetails from './components/CafeDetails';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
+import AccountTypeSelection from './components/auth/AccountTypeSelection';
+import MerchantSignUp from './components/auth/MerchantSignUp';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import type { Cafe } from './data/cafes';
 import ClickSpark from './components/ClickSpark';
@@ -102,7 +104,9 @@ function App() {
                       } 
                     />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/signup/select" element={<AccountTypeSelection />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/signup/merchant" element={<MerchantSignUp />} />
                     <Route 
                       path="/profile" 
                       element={

@@ -11,7 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<User | null>;
   logout: () => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<{user: User | null, message?: string}>;
+  register: (username: string, email: string, password: string, is_merchant?: boolean) => Promise<{user: User | null, message?: string}>;
   updateProfile: (updates: Partial<User>) => Promise<User | null>;
 }
 
@@ -102,9 +102,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Register function
-  const register = async (username: string, email: string, password: string) => {
+  const register = async (username: string, email: string, password: string, is_merchant?: boolean) => {
     try {
-      const result = await authService.register({ username, email, password });
+      const result = await authService.register({ username, email, password, is_merchant });
       return { 
         user: result.user,
         message: result.message

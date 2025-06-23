@@ -55,7 +55,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
         ) : (
           <div className="auth-buttons">
             <Link to="/login" className="auth-nav-button login-button">Log In</Link>
-            <Link to="/signup" className="auth-nav-button signup-button">Sign Up</Link>
+            <Link to="/signup/select" className="auth-nav-button signup-button">Sign Up</Link>
           </div>
         )}
       </div>
