@@ -10,6 +10,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import BookmarkedCafes from '../components/profile/BookmarkedCafes';
 import UserReviews from '../components/profile/UserReviews';
 import ActionCard from '../components/profile/ActionCard';
+import MerchantDashboard from '../components/merchant/MerchantDashboard';
 
 // Extend the Review type to include the additional fields we're adding
 type ExtendedReview = Review & {
@@ -70,6 +71,12 @@ export default function ProfilePage() {
     );
   }
 
+  // If user is a merchant, show merchant dashboard
+  if (user?.is_merchant) {
+    return <MerchantDashboard />;
+  }
+
+  // Otherwise, show regular user profile
   return (
     <div className="dashboard-container">
       <div className="bento-grid">

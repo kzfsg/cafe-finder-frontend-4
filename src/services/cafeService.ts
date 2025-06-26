@@ -446,6 +446,42 @@ const cafeService = {
     }
   },
   
+  // Get cafes owned by a merchant
+  getMerchantCafes: async (merchantId: string): Promise<Cafe[]> => {
+    try {
+      console.log(`Fetching cafes for merchant ID ${merchantId}`);
+      
+      // In a real app, there would be an owner_id field linking cafes to merchants
+      // For now, we'll return a mock empty array since the schema doesn't include merchant ownership
+      // TODO: Add owner_id field to cafes table to track which merchant owns which cafe
+      console.warn('Merchant ownership not implemented in database schema yet');
+      return [];
+      
+      // Future implementation would look like:
+      // const { data: cafesData, error } = await supabase
+      //   .from(CAFES_TABLE)
+      //   .select('*')
+      //   .eq('owner_id', merchantId)
+      //   .order('name');
+      
+      // if (error) {
+      //   console.error('Error fetching merchant cafes:', error);
+      //   return handleSupabaseError(error, 'getMerchantCafes');
+      // }
+      
+      // if (!cafesData || cafesData.length === 0) {
+      //   console.log('No cafes found for merchant');
+      //   return [];
+      // }
+      
+      // const transformPromises = cafesData.map(cafe => transformCafeData(cafe));
+      // return await Promise.all(transformPromises);
+    } catch (error) {
+      console.error(`Error fetching cafes for merchant ${merchantId}:`, error);
+      return [];
+    }
+  },
+
   // Search functionality has been moved to searchService.ts
   }
 
