@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import BookmarkPage from './pages/BookmarkPage';
 import ProfilePage from './pages/ProfilePage';
+import SubmitCafePage from './pages/SubmitCafePage';
+import AdminPage from './pages/AdminPage';
 import CafeDetails from './components/CafeDetails';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
@@ -112,6 +114,22 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <ProfilePage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/submit-cafe" 
+                      element={
+                        <ProtectedRoute>
+                          <SubmitCafePage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/admin" 
+                      element={
+                        <ProtectedRoute>
+                          <AdminPage />
                         </ProtectedRoute>
                       } 
                     />

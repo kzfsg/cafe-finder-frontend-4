@@ -15,6 +15,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@mantine/core": "^8.0.1",
+    "@mantine/form": "^8.1.2",
     "@mantine/hooks": "^8.0.1",
     "@mantine/notifications": "^8.0.1",
     "@supabase/supabase-js": "^2.49.10",

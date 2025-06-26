@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiBookmark, FiLogOut, FiChevronDown } from 'react-icons/fi';
+import { FiUser, FiBookmark, FiLogOut, FiChevronDown, FiPlus, FiSettings } from 'react-icons/fi';
 import '../styles/UserDropdown.css';
 
 interface UserDropdownProps {
@@ -109,6 +109,9 @@ export default function UserDropdown({ username, avatarUrl, onLogout }: UserDrop
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  // Check if user is admin (in a real app, this would come from user context)
+  const isAdmin = username === 'admin' || (typeof window !== 'undefined' && window.location.hostname === 'localhost');
   
   return (
     <div className="user-dropdown-container">
@@ -139,6 +142,10 @@ export default function UserDropdown({ username, avatarUrl, onLogout }: UserDrop
       >
         <DropdownItem icon={FiUser} text="Profile" to="/profile" />
         <DropdownItem icon={FiBookmark} text="Saved Cafes" to="/bookmarks" />
+        <DropdownItem icon={FiPlus} text="Submit Cafe" to="/submit-cafe" />
+        {isAdmin && (
+          <DropdownItem icon={FiSettings} text="Admin Panel" to="/admin" />
+        )}
         <DropdownItem icon={FiLogOut} text="Log Out" onClick={onLogout} />
       </motion.ul>
     </div>

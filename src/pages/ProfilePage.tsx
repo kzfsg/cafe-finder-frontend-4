@@ -9,6 +9,7 @@ import type { Review } from '../services/reviewService';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import BookmarkedCafes from '../components/profile/BookmarkedCafes';
 import UserReviews from '../components/profile/UserReviews';
+import UserSubmissions from '../components/profile/UserSubmissions';
 import ActionCard from '../components/profile/ActionCard';
 import MerchantDashboard from '../components/merchant/MerchantDashboard';
 
@@ -91,6 +92,9 @@ export default function ProfilePage() {
         
         {/* My Reviews Card */}
         <UserReviews userReviews={userReviews} />
+        
+        {/* User Submissions Card */}
+        <UserSubmissions />
         
         {/* Action Cards */}
         <ActionCard type="settings" />
