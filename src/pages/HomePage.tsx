@@ -96,7 +96,7 @@ export default function HomePage() {
         }
         
         // Use batched loading for both search and regular browsing
-        const cafes = await batchedCafeService.loadInitialBatch(userLocation, batchSize, filters);
+        const cafes = await batchedCafeService.loadInitialBatch(userLocation, batchSize, query, filters);
         setDisplayedCafes(cafes);
         setHasMoreCafes(cafes.length === batchSize); // If we got a full batch, there might be more
         
@@ -127,6 +127,7 @@ export default function HomePage() {
         userLocation,
         displayedCafes.length,
         batchSize,
+        query,
         filters
       );
       
@@ -141,7 +142,7 @@ export default function HomePage() {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [userLocation, isLoadingMore, hasMoreCafes, displayedCafes.length, filters, hasSearchParams]);
+  }, [userLocation, isLoadingMore, hasMoreCafes, displayedCafes.length, query, filters, hasSearchParams]);
   
   // Set up intersection observer for infinite scrolling
   useEffect(() => {

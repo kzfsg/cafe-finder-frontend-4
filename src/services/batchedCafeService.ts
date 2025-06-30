@@ -95,6 +95,7 @@ const clearCache = (): void => {
  */
 const getAllCafeIdsWithLocation = async (
   userLocation: { latitude: number; longitude: number },
+  searchQuery?: string,
   filters?: FilterOptions
 ): Promise<{ id: number; distance: number }[]> => {
   try {
@@ -104,6 +105,12 @@ const getAllCafeIdsWithLocation = async (
     let queryBuilder = supabase
       .from(CAFES_TABLE)
       .select('*');  // Select all fields to support text search and filtering
+    
+    // Apply text search if query is provided
+    if (searchQuery && searchQuery.trim() !== '') {
+      console.log(`Applying text search for query: ${searchQuery}`);
+      queryBuilder = queryBuilder.or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+    }
     
     // Apply filters if provided
     if (filters) {
@@ -241,6 +248,7 @@ const batchedCafeService = {
    */
   initializeWithLocation: async (
     userLocation: { latitude: number; longitude: number },
+    searchQuery?: string,
     filters?: FilterOptions
   ): Promise<void> => {
     try {
@@ -248,7 +256,7 @@ const batchedCafeService = {
       cafeCache.userLocation = userLocation;
       
       // Get all cafe IDs sorted by distance
-      const cafesWithDistance = await getAllCafeIdsWithLocation(userLocation, filters);
+      const cafesWithDistance = await getAllCafeIdsWithLocation(userLocation, searchQuery, filters);
       
       // Store sorted cafe IDs in cache
       cafeCache.allCafeIds = cafesWithDistance.map(cafe => cafe.id);
@@ -267,6 +275,7 @@ const batchedCafeService = {
   loadInitialBatch: async (
     userLocation: { latitude: number; longitude: number },
     batchSize = DEFAULT_BATCH_SIZE,
+    searchQuery?: string,
     filters?: FilterOptions
   ): Promise<Cafe[]> => {
     try {
@@ -277,7 +286,7 @@ const batchedCafeService = {
         cafeCache.userLocation.latitude !== userLocation.latitude ||
         cafeCache.userLocation.longitude !== userLocation.longitude
       ) {
-        await batchedCafeService.initializeWithLocation(userLocation, filters);
+        await batchedCafeService.initializeWithLocation(userLocation, searchQuery, filters);
       }
       
       // Get the first batch of cafe IDs
@@ -327,12 +336,13 @@ const batchedCafeService = {
     userLocation: { latitude: number; longitude: number },
     currentCount: number,
     batchSize = DEFAULT_BATCH_SIZE,
+    searchQuery?: string,
     filters?: FilterOptions
   ): Promise<Cafe[]> => {
     try {
       // Initialize if cache is not valid
       if (!isCacheValid()) {
-        await batchedCafeService.initializeWithLocation(userLocation, filters);
+        await batchedCafeService.initializeWithLocation(userLocation, searchQuery, filters);
       }
       
       // Get the next batch of cafe IDs

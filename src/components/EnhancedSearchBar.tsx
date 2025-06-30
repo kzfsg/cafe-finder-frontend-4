@@ -26,14 +26,15 @@ interface EnhancedSearchBarProps {
   onSearch: (query: string, filters?: FilterOptions) => void;
 }
 
-type SearchStep = "location" | "filters" | "upvotes" | "ready";
+type SearchStep = "search" | "location" | "filters" | "upvotes" | "ready";
 
 export default function EnhancedSearchBar({
   onSearch,
 }: EnhancedSearchBarProps) {
   const [isActive, setIsActive] = useState(false);
-  const [currentStep, setCurrentStep] = useState<SearchStep>("location");
+  const [currentStep, setCurrentStep] = useState<SearchStep>("search");
   const [isHovered, setIsHovered] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<FilterOptions>({
     location: "",
     wifi: false,
@@ -49,12 +50,12 @@ export default function EnhancedSearchBar({
 
   const handleActivate = () => {
     setIsActive(true);
-    setCurrentStep("location");
+    setCurrentStep("search");
   };
 
   const handleClose = () => {
     setIsActive(false);
-    setCurrentStep("location");
+    setCurrentStep("search");
   };
 
   const handleFilterChange = (updatedFilters: FilterOptions) => {
@@ -86,10 +87,11 @@ export default function EnhancedSearchBar({
 
   const handleStepComplete = (step: SearchStep) => {
     switch (step) {
+      case "search":
+        setCurrentStep("location");
+        break;
       case "location":
-        if (filters.location || filters.nearMe) {
-          setCurrentStep("filters");
-        }
+        setCurrentStep("filters");
         break;
       case "filters":
         setCurrentStep("upvotes");
@@ -101,8 +103,9 @@ export default function EnhancedSearchBar({
   };
 
   const handleSubmit = () => {
-    onSearch("", { ...filters });
+    onSearch(searchQuery, { ...filters });
     // Reset filters and step after search
+    setSearchQuery("");
     setFilters({
       location: "",
       wifi: false,
@@ -117,7 +120,8 @@ export default function EnhancedSearchBar({
     handleClose();
   };
 
-  const isLocationComplete = !!(filters.location || filters.nearMe);
+  const isSearchComplete = searchQuery.trim().length > 0;
+  const isLocationComplete = true; // Location step is always complete now (user can choose "All Locations" or "Near Me")
   const isFiltersComplete = !!(
     filters.wifi ||
     filters.powerOutlet ||
@@ -257,30 +261,80 @@ export default function EnhancedSearchBar({
                 <div
                   style={{ display: "flex", marginBottom: "2rem", gap: "1rem" }}
                 >
-                  {["location", "filters", "upvotes"].map((step, index) => (
-                    <div
-                      key={step}
-                      style={{
-                        flex: 1,
-                        height: "4px",
-                        borderRadius: "2px",
-                        backgroundColor:
-                          step === "location" && isLocationComplete
-                            ? "#d74f00"
-                            : step === "filters" && isFiltersComplete
-                            ? "#d74f00"
-                            : step === "upvotes" && isUpvotesComplete
-                            ? "#d74f00"
-                            : currentStep === step
-                            ? "#d74f00"
-                            : "#e9ecef",
-                      }}
-                    />
-                  ))}
+                  {["search", "location", "filters", "upvotes"].map(
+                    (step, index) => (
+                      <div
+                        key={step}
+                        style={{
+                          flex: 1,
+                          height: "4px",
+                          borderRadius: "2px",
+                          backgroundColor:
+                            step === "search" && isSearchComplete
+                              ? "#d74f00"
+                              : step === "location" && isLocationComplete
+                              ? "#d74f00"
+                              : step === "filters" && isFiltersComplete
+                              ? "#d74f00"
+                              : step === "upvotes" && isUpvotesComplete
+                              ? "#d74f00"
+                              : currentStep === step
+                              ? "#d74f00"
+                              : "#e9ecef",
+                        }}
+                      />
+                    )
+                  )}
                 </div>
 
                 {/* Step Content */}
                 <AnimatePresence mode="wait">
+                  {currentStep === "search" && (
+                    <motion.div
+                      key="search"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h3 style={{ marginBottom: "1rem" }}>
+                        What type of cafe are you looking for?
+                      </h3>
+                      <Stack gap="md">
+                        <TextInput
+                          placeholder="Search cafe names, descriptions, or keywords..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          leftSection={<IconSearch size={16} />}
+                          size="md"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && searchQuery.trim()) {
+                              handleStepComplete("search");
+                            }
+                          }}
+                        />
+                        {isSearchComplete && (
+                          <Button
+                            onClick={() => handleStepComplete("search")}
+                            style={{
+                              backgroundColor: "#d74f00",
+                              marginTop: "1rem",
+                            }}
+                            size="md"
+                          >
+                            Continue to Location
+                          </Button>
+                        )}
+                        <Button
+                          variant="outline"
+                          onClick={() => handleStepComplete("search")}
+                          size="md"
+                        >
+                          Skip - Browse All Cafes
+                        </Button>
+                      </Stack>
+                    </motion.div>
+                  )}
+
                   {currentStep === "location" && (
                     <motion.div
                       key="location"
@@ -294,12 +348,12 @@ export default function EnhancedSearchBar({
                       <Stack gap="md">
                         <SegmentedControl
                           data={[
-                            { label: "By Name", value: "name" },
+                            { label: "All Locations", value: "all" },
                             { label: "Near Me", value: "nearMe" },
                           ]}
-                          value={filters.nearMe ? "nearMe" : "name"}
+                          value={filters.nearMe ? "nearMe" : "all"}
                           onChange={(value) => {
-                            if (value === "name") {
+                            if (value === "all") {
                               handleFilterChange({ ...filters, nearMe: null });
                             } else {
                               handleGetCurrentLocation();
@@ -319,20 +373,6 @@ export default function EnhancedSearchBar({
                             <Loader size="xs" />
                             <Text size="sm">Getting your location...</Text>
                           </div>
-                        )}
-                        {!filters.nearMe && (
-                          <TextInput
-                            placeholder="Enter location name"
-                            value={filters.location || ""}
-                            onChange={(e) =>
-                              handleFilterChange({
-                                ...filters,
-                                location: e.target.value,
-                              })
-                            }
-                            leftSection={<IconMapPin size={16} />}
-                            size="md"
-                          />
                         )}
                         {filters.nearMe && (
                           <Select
@@ -359,18 +399,28 @@ export default function EnhancedSearchBar({
                             comboboxProps={{ zIndex: 10001 }}
                           />
                         )}
-                        {isLocationComplete && (
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "1rem",
+                            marginTop: "1rem",
+                          }}
+                        >
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurrentStep("search")}
+                            style={{ flex: 1 }}
+                          >
+                            Back
+                          </Button>
                           <Button
                             onClick={() => handleStepComplete("location")}
-                            style={{
-                              backgroundColor: "#d74f00",
-                              marginTop: "1rem",
-                            }}
+                            style={{ backgroundColor: "#d74f00", flex: 2 }}
                             size="md"
                           >
                             Continue to Filters
                           </Button>
-                        )}
+                        </div>
                       </Stack>
                     </motion.div>
                   )}
