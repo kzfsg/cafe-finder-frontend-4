@@ -11,6 +11,7 @@ import SubmitCafePage from './pages/SubmitCafePage';
 import AdminPage from './pages/AdminPage';
 import FollowersPage from './pages/FollowersPage';
 import FindFriendsPage from './pages/FindFriendsPage';
+import FriendsFeedPage from './pages/FriendsFeedPage';
 import CafeDetails from './components/CafeDetails';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
@@ -141,6 +142,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <FindFriendsPage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/friends-feed" 
+                      element={
+                        <ProtectedRoute>
+                          <FriendsFeedPage />
                         </ProtectedRoute>
                       } 
                     />

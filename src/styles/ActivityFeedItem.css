@@ -1,0 +1,61 @@
+.activity-feed-item {
+  transition: all 0.2s ease;
+  border: 1px solid #e9ecef;
+}
+
+.activity-feed-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.username-link:hover {
+  color: #2E7D32;
+  text-decoration: underline;
+}
+
+.cafe-info {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.cafe-info:hover {
+  background-color: #e9ecef;
+}
+
+.cafe-name {
+  color: #2E7D32;
+}
+
+.cafe-name:hover {
+  text-decoration: underline;
+}
+
+.review-content {
+  margin-top: 8px;
+}
+
+.activity-feed-item .mantine-Avatar-root {
+  transition: transform 0.2s ease;
+}
+
+.activity-feed-item .mantine-Avatar-root:hover {
+  transform: scale(1.05);
+}
+
+.activity-feed-item .mantine-Button-root {
+  transition: all 0.2s ease;
+}
+
+.activity-feed-item .mantine-Button-root:hover {
+  transform: translateY(-1px);
+}
+
+.activity-feed-item .mantine-Image-root {
+  transition: transform 0.2s ease;
+}
+
+.activity-feed-item .mantine-Image-root:hover {
+  transform: scale(1.02);
+}

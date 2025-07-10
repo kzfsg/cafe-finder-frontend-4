@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiBookmark, FiLogOut, FiChevronDown, FiPlus, FiSettings, FiUsers, FiSearch } from 'react-icons/fi';
+import { FiUser, FiBookmark, FiLogOut, FiChevronDown, FiPlus, FiSettings, FiUsers, FiSearch, FiActivity } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import '../styles/UserDropdown.css';
 
@@ -144,6 +144,7 @@ export default function UserDropdown({ username, avatarUrl, onLogout }: UserDrop
       >
         <DropdownItem icon={FiUser} text="Profile" to="/profile" />
         <DropdownItem icon={FiBookmark} text="Saved Cafes" to="/bookmarks" />
+        <DropdownItem icon={FiActivity} text="Friends Feed" to="/friends-feed" />
         {user?.id && (
           <DropdownItem icon={FiUsers} text="Followers" to={`/profile/${user.id}/followers`} />
         )}

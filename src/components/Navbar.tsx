@@ -46,6 +46,12 @@ export default function Navbar({ onSearch }: NavbarProps) {
           <img src="/icons/bookmark.svg" alt="Bookmarked cafes" className="custom-icon" style={{ filter: 'brightness(0) invert(1)' }} />
         </Link>
         
+        {user && (
+          <Link to="/friends-feed" className="icon-button feed-button" aria-label="Friends Feed" style={{ color: 'white' }}>
+            <img src="/icons/users.svg" alt="Friends Feed" className="custom-icon" style={{ filter: 'brightness(0) invert(1)' }} />
+          </Link>
+        )}
+        
         {user ? (
           <UserDropdown 
             username={user.username}

@@ -1,0 +1,65 @@
+.friends-feed-page {
+  padding: 2rem 0;
+}
+
+.feed-header {
+  margin-bottom: 2rem;
+}
+
+.feed-header .mantine-Title-root {
+  color: #2E7D32;
+}
+
+.stat-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  min-width: 100px;
+  text-align: center;
+}
+
+.feed-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.friends-feed-page .mantine-Button-root {
+  transition: all 0.2s ease;
+}
+
+.friends-feed-page .mantine-Button-root:hover {
+  transform: translateY(-1px);
+}
+
+.friends-feed-page .mantine-Container-root {
+  max-width: 800px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .friends-feed-page {
+    padding: 1rem 0;
+  }
+  
+  .feed-header .mantine-Group-root {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    min-width: 80px;
+    padding: 0.75rem;
+  }
+}
