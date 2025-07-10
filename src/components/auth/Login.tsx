@@ -67,7 +67,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <img src="/cafe-finder-frontend-v2/favicon.svg" alt="Nomadic logo" className="auth-logo" />
+          <img src="/favicon.svg" alt="Nomadic logo" className="auth-logo" />
           <h2>Welcome back</h2>
           <p>Log in to your Nomadic account</p>
         </div>

@@ -17,7 +17,6 @@ import {
   Alert,
   Loader,
   Center,
-  ActionIcon,
   Tooltip
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -265,7 +264,7 @@ export default function AdminDashboard() {
 
       {/* Submissions List */}
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Tabs value={activeTab} onChange={setActiveTab}>
+        <Tabs value={activeTab} onChange={(value) => setActiveTab(value || 'pending')}>
           <Tabs.List>
             <Tabs.Tab value="pending" leftSection={<IconClock size={16} />}>
               Pending ({stats.pending})

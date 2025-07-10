@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  IconFilter,
-  IconThumbUp,
-  IconMapPin,
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
@@ -262,7 +259,7 @@ export default function EnhancedSearchBar({
                   style={{ display: "flex", marginBottom: "2rem", gap: "1rem" }}
                 >
                   {["search", "location", "filters", "upvotes"].map(
-                    (step, index) => (
+                    (step) => (
                       <div
                         key={step}
                         style={{

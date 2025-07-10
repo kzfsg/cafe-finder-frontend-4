@@ -13,7 +13,7 @@ export default function ProfileHeader({ user, reviewCount }: ProfileHeaderProps)
       <div className="profile-header">
         <div className="profile-avatar-container">
           <Avatar
-            src={user?.avatar || '/cafe-finder-frontend-v2/images/default-avatar.svg'}
+            src={user?.avatar || '/images/default-avatar.svg'}
             className="profile-avatar"
             alt={user?.name || 'User'}
           />

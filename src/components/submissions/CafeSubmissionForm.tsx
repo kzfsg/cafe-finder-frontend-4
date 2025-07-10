@@ -13,8 +13,7 @@ import {
   Alert,
   NumberInput,
   Grid,
-  Text,
-  Loader
+  Text
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';

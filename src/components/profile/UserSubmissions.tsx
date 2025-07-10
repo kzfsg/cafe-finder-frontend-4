@@ -138,7 +138,7 @@ export default function UserSubmissions() {
                   </Group>
 
                   {submission.status === 'rejected' && submission.rejection_reason && (
-                    <Alert icon={<IconInfoCircle size={16} />} color="red" size="sm" mt="xs">
+                    <Alert icon={<IconInfoCircle size={16} />} color="red" mt="xs">
                       <Text size="sm">
                         <strong>Rejection Reason:</strong> {submission.rejection_reason}
                       </Text>
@@ -146,7 +146,7 @@ export default function UserSubmissions() {
                   )}
 
                   {submission.admin_notes && (
-                    <Alert icon={<IconInfoCircle size={16} />} color="blue" size="sm" mt="xs">
+                    <Alert icon={<IconInfoCircle size={16} />} color="blue" mt="xs">
                       <Text size="sm">
                         <strong>Admin Notes:</strong> {submission.admin_notes}
                       </Text>

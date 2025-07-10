@@ -94,7 +94,7 @@ const SignUp = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <img src="/cafe-finder-frontend-v2/favicon.svg" alt="Nomadic logo" className="auth-logo" />
+          <img src="/favicon.svg" alt="Nomadic logo" className="auth-logo" />
           <h2>Create your account</h2>
           <p>Join Nomadic to find the best work-friendly cafes</p>
         </div>

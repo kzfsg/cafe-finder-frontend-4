@@ -108,7 +108,7 @@ const MerchantSignUp = () => {
       <div className="auth-card">
         <div className="auth-header">
           <img
-            src="/cafe-finder-frontend-v2/favicon.svg"
+            src="/favicon.svg"
             alt="Nomadic logo"
             className="auth-logo"
           />

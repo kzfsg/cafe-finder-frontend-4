@@ -121,7 +121,7 @@ export default function UserDropdown({ username, avatarUrl, onLogout }: UserDrop
         aria-label="User profile"
       >
         <img 
-          src={avatarUrl || "/cafe-finder-frontend-v2/icons/default-avatar.svg"} 
+          src={avatarUrl || "/icons/default-avatar.svg"} 
           alt={username} 
           className="profile-image"
         />

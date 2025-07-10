@@ -6,7 +6,7 @@ const AccountTypeSelection = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <img src="/cafe-finder-frontend-v2/favicon.svg" alt="Nomadic logo" className="auth-logo" />
+          <img src="/favicon.svg" alt="Nomadic logo" className="auth-logo" />
           <h2>Choose Your Account Type</h2>
           <p>Select the type of account that best describes you</p>
         </div>

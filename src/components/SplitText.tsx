@@ -66,7 +66,7 @@ const SplitText = ({
     }
 
     targets.forEach((t) => {
-      t.style.willChange = "transform, opacity";
+      (t as HTMLElement).style.willChange = "transform, opacity";
     });
 
     const startPct = (1 - threshold) * 100;

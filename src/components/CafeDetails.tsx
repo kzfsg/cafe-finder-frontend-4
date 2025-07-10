@@ -24,7 +24,7 @@ const CafeDetails: React.FC<CafeDetailsProps> = ({ cafe, onClose, onVoteUpdate }
         <h1 className="cafe-title">{cafe.title || cafe.name || 'Unnamed Cafe'}</h1>
         <div className="cafe-actions">
           <button className="maps-button" onClick={() => window.open(`https://maps.google.com/maps/search/?api=1&query=${encodeURIComponent(`${cafe.location?.address || ''}, ${cafe.location?.city || ''}, ${cafe.location?.country || ''}`)}`, '_blank')}>
-            <img src="/cafe-finder-frontend-v2/icons/map-pin.svg" alt="Location" className="button-icon" />
+            <img src="/icons/map-pin.svg" alt="Location" className="button-icon" />
             View on Maps
           </button>
           <div className="vote-buttons">
@@ -130,23 +130,23 @@ const CafeDetails: React.FC<CafeDetailsProps> = ({ cafe, onClose, onVoteUpdate }
         <h2>Amenities</h2>
         <div className="amenities-grid">
           <div className="amenity-item">
-            <img src="/cafe-finder-frontend-v2/icons/wifi.svg" alt="WiFi" className="amenity-icon" />
+            <img src="/icons/wifi.svg" alt="WiFi" className="amenity-icon" />
             <span>{cafe.wifi ? 'WiFi Available' : 'No WiFi'}</span>
           </div>
           <div className="amenity-item">
-            <img src="/cafe-finder-frontend-v2/icons/power.svg" alt="Power" className="amenity-icon" />
+            <img src="/icons/power.svg" alt="Power" className="amenity-icon" />
             <span>{cafe.powerOutletAvailable ? 'Power Outlets' : 'No Power Outlets'}</span>
           </div>
           <div className="amenity-item">
-            <img src="/cafe-finder-frontend-v2/icons/clock.svg" alt="Hours" className="amenity-icon" />
+            <img src="/icons/clock.svg" alt="Hours" className="amenity-icon" />
             <span>{cafe.amenities?.openingHours || 'Hours not available'}</span>
           </div>
           <div className="amenity-item">
-            <img src="/cafe-finder-frontend-v2/icons/users.svg" alt="Capacity" className="amenity-icon" />
+            <img src="/icons/users.svg" alt="Capacity" className="amenity-icon" />
             <span>{cafe.amenities?.seatingCapacity || 'Capacity not available'}</span>
           </div>
           <div className="amenity-item">
-            <img src="/cafe-finder-frontend-v2/icons/volume.svg" alt="Noise" className="amenity-icon" />
+            <img src="/icons/volume.svg" alt="Noise" className="amenity-icon" />
             <span>Noise Level: {cafe.amenities?.noiseLevel || 'Not specified'}</span>
           </div>
         </div>
