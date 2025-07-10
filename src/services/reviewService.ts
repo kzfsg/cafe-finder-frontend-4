@@ -37,6 +37,7 @@ export interface Review {
   cafe_id: number;
   rating: boolean;
   comment: string;
+  review_text?: string; // Alias for comment for compatibility
   created_at: string;
   updated_at: string;
   cafe_name?: string;
@@ -49,11 +50,11 @@ export interface Review {
 
 const reviewService = {
   // Get all reviews for a specific user with cafe details
-  async getUserReviews(userId: string): Promise<Review[]> {
+  async getUserReviews(userId: string, limit?: number): Promise<Review[]> {
     try {
       console.log('getUserReviews called with userId:', userId);
       
-      const { data, error } = await supabase
+      let query = supabase
         .from('reviews')
         .select(`
           *,
@@ -62,6 +63,12 @@ const reviewService = {
         `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
+      
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const { data, error } = await query;
 
       console.log('Supabase query result:', { data, error });
 
@@ -70,7 +77,8 @@ const reviewService = {
       const mappedReviews = (data as DatabaseReview[]).map((review: DatabaseReview) => ({
         ...review,
         cafe_name: review.cafes?.name || 'Unknown Cafe',
-        cafe_image: review.cafes?.image_urls?.[0]
+        cafe_image: review.cafes?.image_urls?.[0],
+        review_text: review.comment // Add alias for compatibility
       }));
       
       console.log('Mapped reviews:', mappedReviews);

@@ -33,24 +33,40 @@ const bookmarkService = {
   /**
    * Get all bookmarked cafes for the current user
    */
-  getBookmarkedCafes: async (): Promise<Cafe[]> => {
+  getBookmarkedCafes: async (userId?: string, limit?: number): Promise<Cafe[]> => {
     try {
-      const session = await authService.getSession();
-      if (!session) {
-        console.log('No active session');
-        return [];
+      let targetUserId: string;
+      
+      if (userId) {
+        // Getting bookmarks for a specific user (for Find Friends page)
+        targetUserId = userId;
+      } else {
+        // Getting bookmarks for current user
+        const session = await authService.getSession();
+        if (!session) {
+          console.log('No active session');
+          return [];
+        }
+        targetUserId = session.user.id;
       }
       
-      console.log('Fetching bookmarked cafes for user:', session.user.id);
+      console.log('Fetching bookmarked cafes for user:', targetUserId);
       
-      // Get the user's bookmarks with joined cafe data
-      const { data: bookmarks, error } = await supabase
+      // Build the query
+      let query = supabase
         .from(BOOKMARKS_TABLE)
         .select(`
           cafe_id,
           cafes (*)
         `)
-        .eq('user_id', session.user.id);
+        .eq('user_id', targetUserId);
+      
+      // Apply limit if specified
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const { data: bookmarks, error } = await query;
       
       if (error) {
         console.error('Error fetching bookmarked cafes:', error);

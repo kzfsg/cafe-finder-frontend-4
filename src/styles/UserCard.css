@@ -1,0 +1,114 @@
+/* User Card Styles */
+.user-card {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100%;
+  background: white;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #d0d7de;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-actions {
+  flex-shrink: 0;
+}
+
+/* Bookmarks Section */
+.user-bookmarks-section {
+  border-top: 1px solid #f1f3f4;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.user-card-bookmark {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.user-card-bookmark:hover {
+  border-color: #d0d7de;
+  background: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-card-bookmark .mantine-Image-root {
+  border-radius: 4px;
+}
+
+.user-card-bookmark .mantine-Text-root {
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+/* Review Section */
+.user-review-section {
+  border-top: 1px solid #f1f3f4;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.recent-review {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.recent-review .mantine-Group-root {
+  align-items: center;
+}
+
+.recent-review .mantine-Text-root {
+  word-break: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-card {
+    margin-bottom: 1rem;
+  }
+  
+  .bookmarks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .user-card-bookmark .mantine-Text-root {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-card {
+    padding: 1rem;
+  }
+  
+  .bookmarks-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-info h3 {
+    font-size: 1rem;
+  }
+}

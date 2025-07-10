@@ -134,7 +134,15 @@ const followerService = {
         .eq('following_id', followingId)
         .single();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
+        if (error.code === 'PGRST116') {
+          return false; // No relationship found
+        }
+        // Handle 406 errors and other RLS policy issues gracefully
+        if (error.message?.includes('policy') || error.code === '42501' || error.details?.includes('406')) {
+          console.warn('Database policy blocking follow status check. Assuming not following.');
+          return false;
+        }
         throw error;
       }
 
@@ -302,7 +310,15 @@ const followerService = {
         .eq('following_id', user.id)
         .single();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
+        if (error.code === 'PGRST116') {
+          return false; // No relationship found
+        }
+        // Handle 406 errors and other RLS policy issues gracefully
+        if (error.message?.includes('policy') || error.code === '42501' || error.details?.includes('406')) {
+          console.warn('Database policy blocking follow status check. Assuming not followed by user.');
+          return false;
+        }
         throw error;
       }
 
@@ -373,6 +389,54 @@ const followerService = {
       return mutualFollowers.filter(Boolean) as UserWithFollowerInfo[];
     } catch (error) {
       console.error('Error getting mutual followers:', error);
+      return [];
+    }
+  },
+
+  // Get all users for discovery (Find Friends)
+  getAllUsers: async (limit: number = 3, offset: number = 0): Promise<UserWithFollowerInfo[]> => {
+    try {
+      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !currentUser) {
+        return [];
+      }
+
+      // Get users excluding current user
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .neq('id', currentUser.id)
+        .order('created_at', { ascending: false })
+        .range(offset, offset + limit - 1);
+
+      if (error) throw error;
+
+      const users = await Promise.all(
+        (data || []).map(async (profile) => {
+          const followerStats = await followerService.getFollowerStats(profile.id);
+          const is_following = await followerService.isFollowing(profile.id);
+          const is_followed_by = await followerService.isFollowedBy(profile.id);
+
+          return {
+            id: profile.id,
+            username: profile.username,
+            email: '', // Not exposed in public user lists
+            avatar_url: profile.avatar_url,
+            is_merchant: profile.is_merchant,
+            created_at: profile.created_at,
+            updated_at: profile.updated_at,
+            followers_count: followerStats.followers_count,
+            following_count: followerStats.following_count,
+            is_following,
+            is_followed_by
+          };
+        })
+      );
+
+      return users;
+    } catch (error) {
+      console.error('Error getting all users:', error);
       return [];
     }
   }

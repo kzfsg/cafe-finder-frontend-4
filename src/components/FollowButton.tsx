@@ -28,11 +28,23 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    checkCurrentUser();
     checkFollowStatus();
   }, [userId]);
+
+  const checkCurrentUser = async () => {
+    try {
+      const currentUser = await authService.getCurrentUser();
+      setIsCurrentUser(currentUser?.id === userId);
+    } catch (error) {
+      console.error('Error checking current user:', error);
+      setIsCurrentUser(false);
+    }
+  };
 
   const checkFollowStatus = async () => {
     try {
@@ -48,6 +60,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({
       setIsFollowing(following);
     } catch (error) {
       console.error('Error checking follow status:', error);
+      // Handle 406 errors gracefully - assume not following
+      setIsFollowing(false);
     } finally {
       setIsLoadingStatus(false);
     }
@@ -83,25 +97,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   };
 
   // Don't render if still loading status or if it's the current user
-  if (isLoadingStatus) {
-    return null;
-  }
-
-  // Don't show follow button for current user
-  const getCurrentUserId = async () => {
-    const user = await authService.getCurrentUser();
-    return user?.id;
-  };
-
-  // Check if this is the current user (async check)
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
-  useEffect(() => {
-    getCurrentUserId().then(currentUserId => {
-      setIsCurrentUser(currentUserId === userId);
-    });
-  }, [userId]);
-
-  if (isCurrentUser) {
+  if (isLoadingStatus || isCurrentUser) {
     return null;
   }
 

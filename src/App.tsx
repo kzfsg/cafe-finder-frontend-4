@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import SubmitCafePage from './pages/SubmitCafePage';
 import AdminPage from './pages/AdminPage';
 import FollowersPage from './pages/FollowersPage';
+import FindFriendsPage from './pages/FindFriendsPage';
 import CafeDetails from './components/CafeDetails';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
@@ -123,6 +124,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <FollowersPage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/find-friends" 
+                      element={
+                        <ProtectedRoute>
+                          <FindFriendsPage />
                         </ProtectedRoute>
                       } 
                     />
