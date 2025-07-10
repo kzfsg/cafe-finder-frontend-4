@@ -1,0 +1,42 @@
+/* Follow Button Styles */
+.follow-button {
+  transition: all 0.2s ease;
+}
+
+.follow-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.follow-button.following {
+  color: #666;
+  border-color: #ddd;
+}
+
+.follow-button.following:hover {
+  background-color: #f8f9fa;
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.follow-button.not-following {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.follow-button.not-following:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.follow-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.follow-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}

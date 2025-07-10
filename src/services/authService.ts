@@ -25,6 +25,8 @@ type User = {
   updated_at: string;
   is_merchant: boolean;
   bookmarkedCafes?: any[];
+  followers_count?: number;
+  following_count?: number;
   [key: string]: any; // For other properties that might be returned
 };
 

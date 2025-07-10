@@ -8,6 +8,7 @@ import BookmarkPage from './pages/BookmarkPage';
 import ProfilePage from './pages/ProfilePage';
 import SubmitCafePage from './pages/SubmitCafePage';
 import AdminPage from './pages/AdminPage';
+import FollowersPage from './pages/FollowersPage';
 import CafeDetails from './components/CafeDetails';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
@@ -114,6 +115,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <ProfilePage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/profile/:userId/followers" 
+                      element={
+                        <ProtectedRoute>
+                          <FollowersPage />
                         </ProtectedRoute>
                       } 
                     />

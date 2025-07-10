@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiBookmark, FiLogOut, FiChevronDown, FiPlus, FiSettings } from 'react-icons/fi';
+import { FiUser, FiBookmark, FiLogOut, FiChevronDown, FiPlus, FiSettings, FiUsers } from 'react-icons/fi';
+import { useAuth } from '../context/AuthContext';
 import '../styles/UserDropdown.css';
 
 interface UserDropdownProps {
@@ -105,6 +106,7 @@ const DropdownItem = ({ icon: Icon, text, onClick, to }: DropdownItemProps) => {
 
 export default function UserDropdown({ username, avatarUrl, onLogout }: UserDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
   
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -142,6 +144,9 @@ export default function UserDropdown({ username, avatarUrl, onLogout }: UserDrop
       >
         <DropdownItem icon={FiUser} text="Profile" to="/profile" />
         <DropdownItem icon={FiBookmark} text="Saved Cafes" to="/bookmarks" />
+        {user?.id && (
+          <DropdownItem icon={FiUsers} text="Followers" to={`/profile/${user.id}/followers`} />
+        )}
         <DropdownItem icon={FiPlus} text="Submit Cafe" to="/submit-cafe" />
         {isAdmin && (
           <DropdownItem icon={FiSettings} text="Admin Panel" to="/admin" />

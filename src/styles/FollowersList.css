@@ -1,0 +1,60 @@
+/* Followers List Styles */
+.followers-list {
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.followers-list-loading,
+.followers-list-error,
+.followers-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.followers-list-empty .empty-icon {
+  color: #999;
+  margin-bottom: 1rem;
+}
+
+.follower-item {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.follower-item:hover {
+  border-color: #d0d7de;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.follower-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.follower-name-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+.follower-name-link:hover {
+  color: #007bff;
+}
+
+.follower-stats {
+  margin-top: 0.25rem;
+}
+
+.follower-actions {
+  flex-shrink: 0;
+}
+
+.load-more-btn {
+  align-self: center;
+  margin-top: 1rem;
+}
