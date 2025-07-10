@@ -180,35 +180,36 @@ const followerService = {
   // Get users who follow a specific user
   getFollowers: async (userId: string, limit: number = 20, offset: number = 0): Promise<UserWithFollowerInfo[]> => {
     try {
-      const { data, error } = await supabase
+      // First get the follower relationships
+      const { data: relationships, error: relationshipError } = await supabase
         .from('followers')
-        .select(`
-          id,
-          created_at,
-          follower_id,
-          profiles!followers_follower_id_fkey (
-            id,
-            username,
-            avatar_url,
-            is_merchant,
-            created_at,
-            updated_at
-          )
-        `)
+        .select('id, created_at, follower_id')
         .eq('following_id', userId)
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
 
-      if (error) throw error;
+      if (relationshipError) throw relationshipError;
+
+      if (!relationships || relationships.length === 0) {
+        return [];
+      }
+
+      // Get the follower IDs
+      const followerIds = relationships.map(rel => rel.follower_id);
+
+      // Get profiles for these users
+      const { data: profiles, error: profileError } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url, is_merchant, created_at, updated_at')
+        .in('id', followerIds);
+
+      if (profileError) throw profileError;
 
       // Get current user for follow status checking
       const { data: { user: currentUser } } = await supabase.auth.getUser();
 
       const followers = await Promise.all(
-        (data || []).map(async (relationship) => {
-          const profile = relationship.profiles;
-          if (!profile) return null;
-
+        (profiles || []).map(async (profile) => {
           const followerStats = await followerService.getFollowerStats(profile.id);
           const is_following = currentUser ? await followerService.isFollowing(profile.id) : false;
 
@@ -238,35 +239,36 @@ const followerService = {
   // Get users that a specific user follows
   getFollowing: async (userId: string, limit: number = 20, offset: number = 0): Promise<UserWithFollowerInfo[]> => {
     try {
-      const { data, error } = await supabase
+      // First get the following relationships
+      const { data: relationships, error: relationshipError } = await supabase
         .from('followers')
-        .select(`
-          id,
-          created_at,
-          following_id,
-          profiles!followers_following_id_fkey (
-            id,
-            username,
-            avatar_url,
-            is_merchant,
-            created_at,
-            updated_at
-          )
-        `)
+        .select('id, created_at, following_id')
         .eq('follower_id', userId)
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
 
-      if (error) throw error;
+      if (relationshipError) throw relationshipError;
+
+      if (!relationships || relationships.length === 0) {
+        return [];
+      }
+
+      // Get the following IDs
+      const followingIds = relationships.map(rel => rel.following_id);
+
+      // Get profiles for these users
+      const { data: profiles, error: profileError } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url, is_merchant, created_at, updated_at')
+        .in('id', followingIds);
+
+      if (profileError) throw profileError;
 
       // Get current user for follow status checking
       const { data: { user: currentUser } } = await supabase.auth.getUser();
 
       const following = await Promise.all(
-        (data || []).map(async (relationship) => {
-          const profile = relationship.profiles;
-          if (!profile) return null;
-
+        (profiles || []).map(async (profile) => {
           const followerStats = await followerService.getFollowerStats(profile.id);
           const is_following = currentUser ? await followerService.isFollowing(profile.id) : false;
           const is_followed_by = currentUser ? await followerService.isFollowedBy(profile.id) : false;
