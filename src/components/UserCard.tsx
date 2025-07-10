@@ -62,7 +62,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, onFollowChange }) => {
     if ((e.target as HTMLElement).closest('.follow-button, .user-card-bookmark')) {
       return;
     }
-    navigate(`/profile/${user.id}`);
+    navigate(`/user/${user.id}`);
   };
 
   const handleBookmarkClick = (cafe: BookmarkedCafe, e: React.MouseEvent) => {

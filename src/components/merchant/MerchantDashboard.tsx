@@ -27,7 +27,12 @@ interface ReviewWithCafe {
   cafe_name?: string;
 }
 
-export default function MerchantDashboard() {
+interface MerchantDashboardProps {
+  userId?: string;
+  isPublicView?: boolean;
+}
+
+export default function MerchantDashboard({ userId, isPublicView = false }: MerchantDashboardProps) {
   const { user } = useAuth();
   const [stats, setStats] = useState<MerchantStats>({
     totalReviews: 0,
@@ -41,15 +46,18 @@ export default function MerchantDashboard() {
   const [negativeReviews, setNegativeReviews] = useState<ReviewWithCafe[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Use provided userId or current user's id
+  const targetUserId = userId || user?.id;
+
   useEffect(() => {
     const fetchMerchantData = async () => {
-      if (!user?.id) return;
+      if (!targetUserId) return;
 
       try {
         setLoading(true);
         
         // Get all cafes owned by this merchant
-        const ownedCafes = await cafeService.getMerchantCafes(user.id);
+        const ownedCafes = await cafeService.getMerchantCafes(targetUserId);
         
         // Get all reviews for merchant's cafes
         const allReviews: ReviewWithCafe[] = [];
@@ -93,7 +101,7 @@ export default function MerchantDashboard() {
     };
 
     fetchMerchantData();
-  }, [user?.id]);
+  }, [targetUserId]);
 
   if (loading) {
     return (
@@ -115,7 +123,7 @@ export default function MerchantDashboard() {
     <div className="dashboard-container">
       <Container size="xl" py="md">
         <Title order={1} mb="xl" style={{ color: '#2E7D32', textAlign: 'center' }}>
-          Merchant Dashboard
+          {isPublicView ? 'Merchant Profile' : 'Merchant Dashboard'}
         </Title>
 
         {/* Stats Overview */}

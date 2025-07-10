@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import BookmarkPage from './pages/BookmarkPage';
 import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage';
 import SubmitCafePage from './pages/SubmitCafePage';
 import AdminPage from './pages/AdminPage';
 import FollowersPage from './pages/FollowersPage';
@@ -116,6 +117,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <ProfilePage />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/user/:userId" 
+                      element={
+                        <ProtectedRoute>
+                          <PublicProfilePage />
                         </ProtectedRoute>
                       } 
                     />

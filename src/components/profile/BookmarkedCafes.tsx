@@ -6,12 +6,16 @@ import '../../styles/ProfileComponents.css';
 
 interface BookmarkedCafesProps {
   bookmarkedCafes: Cafe[];
+  isPublicView?: boolean;
+  username?: string;
 }
 
-export default function BookmarkedCafes({ bookmarkedCafes }: BookmarkedCafesProps) {
+export default function BookmarkedCafes({ bookmarkedCafes, isPublicView = false, username }: BookmarkedCafesProps) {
+  const title = isPublicView ? `${username}'s Bookmarked Cafes` : 'My Bookmarked Cafes';
+  
   return (
     <div className="bento-card bookmarked-cafes">
-      <h3 className="card-title">My Bookmarked Cafes</h3>
+      <h3 className="card-title">{title}</h3>
       
       {bookmarkedCafes.length > 0 ? (
         <div className="mini-masonry">

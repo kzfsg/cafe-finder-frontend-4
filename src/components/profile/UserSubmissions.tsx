@@ -19,18 +19,27 @@ import { useAuth } from '../../context/AuthContext';
 import submissionService from '../../services/submissionService';
 import type { CafeSubmission } from '../../data/submissions';
 
-export default function UserSubmissions() {
+interface UserSubmissionsProps {
+  userId?: string;
+  isPublicView?: boolean;
+  username?: string;
+}
+
+export default function UserSubmissions({ userId, isPublicView = false, username }: UserSubmissionsProps = {}) {
   const { user } = useAuth();
   const [submissions, setSubmissions] = useState<CafeSubmission[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Use provided userId or current user's id
+  const targetUserId = userId || user?.id;
+
   useEffect(() => {
     const fetchSubmissions = async () => {
-      if (!user?.id) return;
+      if (!targetUserId) return;
       
       try {
         setLoading(true);
-        const userSubmissions = await submissionService.getUserSubmissions(user.id);
+        const userSubmissions = await submissionService.getUserSubmissions(targetUserId);
         setSubmissions(userSubmissions);
       } catch (error) {
         console.error('Error fetching user submissions:', error);
@@ -40,7 +49,7 @@ export default function UserSubmissions() {
     };
 
     fetchSubmissions();
-  }, [user?.id]);
+  }, [targetUserId]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -72,32 +81,41 @@ export default function UserSubmissions() {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder className="profile-card submissions-card">
       <Group justify="space-between" mb="md">
-        <Title order={4}>My Cafe Submissions</Title>
-        <Button
-          component={Link}
-          to="/submit-cafe"
-          leftSection={<IconPlus size={16} />}
-          size="sm"
-          variant="light"
-        >
-          Submit New Cafe
-        </Button>
+        <Title order={4}>
+          {isPublicView ? `${username}'s Cafe Submissions` : 'My Cafe Submissions'}
+        </Title>
+        {!isPublicView && (
+          <Button
+            component={Link}
+            to="/submit-cafe"
+            leftSection={<IconPlus size={16} />}
+            size="sm"
+            variant="light"
+          >
+            Submit New Cafe
+          </Button>
+        )}
       </Group>
 
       {submissions.length === 0 ? (
         <Center py="xl">
           <Stack align="center" gap="md">
             <Text color="dimmed" ta="center">
-              You haven't submitted any cafes yet
+              {isPublicView 
+                ? `${username} hasn't submitted any cafes yet` 
+                : "You haven't submitted any cafes yet"
+              }
             </Text>
-            <Button
-              component={Link}
-              to="/submit-cafe"
-              leftSection={<IconPlus size={16} />}
-              variant="filled"
-            >
-              Submit Your First Cafe
-            </Button>
+            {!isPublicView && (
+              <Button
+                component={Link}
+                to="/submit-cafe"
+                leftSection={<IconPlus size={16} />}
+                variant="filled"
+              >
+                Submit Your First Cafe
+              </Button>
+            )}
           </Stack>
         </Center>
       ) : (

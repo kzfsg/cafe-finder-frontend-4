@@ -9,9 +9,11 @@ interface ExtendedReview extends Review {
 
 interface UserReviewsProps {
   userReviews: ExtendedReview[];
+  isPublicView?: boolean;
+  username?: string;
 }
 
-export default function UserReviews({ userReviews }: UserReviewsProps) {
+export default function UserReviews({ userReviews, isPublicView = false, username }: UserReviewsProps) {
   // Format date for review display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -22,9 +24,11 @@ export default function UserReviews({ userReviews }: UserReviewsProps) {
     });
   };
 
+  const title = isPublicView ? `${username}'s Recent Reviews` : 'My Recent Reviews';
+  
   return (
     <div className="bento-card reviews-card">
-      <h3 className="card-title">My Recent Reviews</h3>
+      <h3 className="card-title">{title}</h3>
       
       {userReviews.length > 0 ? (
         <div className="reviews-list">
