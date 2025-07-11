@@ -1,5 +1,6 @@
 import { supabase } from '../supabase-client';
 import followerService from './followerService';
+import { transformCafeData, type SupabaseCafe } from './cafeService';
 import type { Cafe } from '../data/cafes';
 
 // Activity types
@@ -98,12 +99,24 @@ const feedService = {
         .select('id, username, avatar_url')
         .in('id', userIds_unique);
 
-      // Get cafe details
+      // Get cafe details (without imageUrls field)
       const cafeIds = [...new Set(bookmarks.map(b => b.cafe_id))];
-      const { data: cafes } = await supabase
+      const { data: rawCafes } = await supabase
         .from('cafes')
-        .select('id, name, imageUrls')
+        .select('*')
         .in('id', cafeIds);
+
+      // Transform cafe data to get proper image URLs
+      const cafes = await Promise.all(
+        (rawCafes || []).map(async (rawCafe: SupabaseCafe) => {
+          const transformedCafe = await transformCafeData(rawCafe);
+          return {
+            id: transformedCafe.id,
+            name: transformedCafe.name,
+            image: transformedCafe.imageUrls?.[0] || '/images/no-image.svg'
+          };
+        })
+      );
 
       // Combine data
       return bookmarks.map(bookmark => {
@@ -118,7 +131,7 @@ const feedService = {
           avatar_url: profile?.avatar_url,
           cafe_id: bookmark.cafe_id,
           cafe_name: cafe?.name || 'Unknown Cafe',
-          cafe_image: cafe?.imageUrls?.[0],
+          cafe_image: cafe?.image || '/images/no-image.svg',
           created_at: bookmark.created_at
         };
       });
@@ -155,12 +168,24 @@ const feedService = {
         .select('id, username, avatar_url')
         .in('id', userIds_unique);
 
-      // Get cafe details
+      // Get cafe details (without imageUrls field)
       const cafeIds = [...new Set(reviews.map(r => r.cafe_id))];
-      const { data: cafes } = await supabase
+      const { data: rawCafes } = await supabase
         .from('cafes')
-        .select('id, name, imageUrls')
+        .select('*')
         .in('id', cafeIds);
+
+      // Transform cafe data to get proper image URLs
+      const cafes = await Promise.all(
+        (rawCafes || []).map(async (rawCafe: SupabaseCafe) => {
+          const transformedCafe = await transformCafeData(rawCafe);
+          return {
+            id: transformedCafe.id,
+            name: transformedCafe.name,
+            image: transformedCafe.imageUrls?.[0] || '/images/no-image.svg'
+          };
+        })
+      );
 
       // Combine data
       return reviews.map(review => {
@@ -175,7 +200,7 @@ const feedService = {
           avatar_url: profile?.avatar_url,
           cafe_id: review.cafe_id,
           cafe_name: cafe?.name || 'Unknown Cafe',
-          cafe_image: cafe?.imageUrls?.[0],
+          cafe_image: cafe?.image || '/images/no-image.svg',
           created_at: review.created_at,
           rating: review.rating,
           comment: review.comment
@@ -215,12 +240,24 @@ const feedService = {
         .select('id, username, avatar_url')
         .in('id', userIds_unique);
 
-      // Get cafe details
+      // Get cafe details (without imageUrls field)
       const cafeIds = [...new Set(upvotes.map(u => u.cafe_id))];
-      const { data: cafes } = await supabase
+      const { data: rawCafes } = await supabase
         .from('cafes')
-        .select('id, name, imageUrls')
+        .select('*')
         .in('id', cafeIds);
+
+      // Transform cafe data to get proper image URLs
+      const cafes = await Promise.all(
+        (rawCafes || []).map(async (rawCafe: SupabaseCafe) => {
+          const transformedCafe = await transformCafeData(rawCafe);
+          return {
+            id: transformedCafe.id,
+            name: transformedCafe.name,
+            image: transformedCafe.imageUrls?.[0] || '/images/no-image.svg'
+          };
+        })
+      );
 
       // Combine data
       return upvotes.map(upvote => {
@@ -235,7 +272,7 @@ const feedService = {
           avatar_url: profile?.avatar_url,
           cafe_id: upvote.cafe_id,
           cafe_name: cafe?.name || 'Unknown Cafe',
-          cafe_image: cafe?.imageUrls?.[0],
+          cafe_image: cafe?.image || '/images/no-image.svg',
           created_at: upvote.created_at
         };
       });
@@ -273,12 +310,24 @@ const feedService = {
         .select('id, username, avatar_url')
         .in('id', userIds_unique);
 
-      // Get cafe details
+      // Get cafe details (without imageUrls field)
       const cafeIds = [...new Set(downvotes.map(d => d.cafe_id))];
-      const { data: cafes } = await supabase
+      const { data: rawCafes } = await supabase
         .from('cafes')
-        .select('id, name, imageUrls')
+        .select('*')
         .in('id', cafeIds);
+
+      // Transform cafe data to get proper image URLs
+      const cafes = await Promise.all(
+        (rawCafes || []).map(async (rawCafe: SupabaseCafe) => {
+          const transformedCafe = await transformCafeData(rawCafe);
+          return {
+            id: transformedCafe.id,
+            name: transformedCafe.name,
+            image: transformedCafe.imageUrls?.[0] || '/images/no-image.svg'
+          };
+        })
+      );
 
       // Combine data
       return downvotes.map(downvote => {
@@ -293,7 +342,7 @@ const feedService = {
           avatar_url: profile?.avatar_url,
           cafe_id: downvote.cafe_id,
           cafe_name: cafe?.name || 'Unknown Cafe',
-          cafe_image: cafe?.imageUrls?.[0],
+          cafe_image: cafe?.image || '/images/no-image.svg',
           created_at: downvote.created_at
         };
       });
@@ -321,11 +370,11 @@ const feedService = {
           .select('id', { count: 'exact' })
           .eq('user_id', userId),
         supabase
-          .from('upvotes')
+          .from('user_upvotes')
           .select('id', { count: 'exact' })
           .eq('user_id', userId),
         supabase
-          .from('downvotes')
+          .from('user_downvotes')
           .select('id', { count: 'exact' })
           .eq('user_id', userId)
       ]);
