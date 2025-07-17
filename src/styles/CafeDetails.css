@@ -1,3 +1,42 @@
+/* Main container for cafe page */
+.cafe-page-container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.cafe-page-container .cafe-details-container {
+  margin-top: 20px;
+  max-height: none;
+}
+
+.loading-spinner,
+.error-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.back-button {
+  background-color: #6C63FF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #5A52E0;
+}
+
 /* Main container for cafe details */
 .cafe-details-container {
   background-color: white;
@@ -75,7 +114,7 @@
   gap: 8px;
 }
 
-.maps-button, .upvote-button {
+.maps-button, .cafe-page-button, .upvote-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -93,6 +132,11 @@
   color: white;
 }
 
+.cafe-page-button {
+  background-color: #6C63FF;
+  color: white;
+}
+
 .upvote-button {
   background-color: #f5f5f5;
   color: #333;
@@ -100,6 +144,10 @@
 
 .maps-button:hover {
   background-color: #3367d6;
+}
+
+.cafe-page-button:hover {
+  background-color: #5A52E0;
 }
 
 .upvote-button:hover {

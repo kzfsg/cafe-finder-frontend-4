@@ -13,6 +13,7 @@ import FollowersPage from './pages/FollowersPage';
 import FindFriendsPage from './pages/FindFriendsPage';
 import FriendsFeedPage from './pages/FriendsFeedPage';
 import CafeDetails from './components/CafeDetails';
+import CafePage from './pages/CafePage';
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
 import AccountTypeSelection from './components/auth/AccountTypeSelection';
@@ -92,6 +93,7 @@ function App() {
                 <main className="main-content">
                   <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/cafe/:id" element={<CafePage />} />
                     <Route 
                       path="/cafes/:id" 
                       element={

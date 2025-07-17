@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Cafe } from '../data/cafes';
 import '../styles/CafeDetails.css';
 import UpvoteButton from './UpvoteButton';
@@ -13,6 +14,7 @@ interface CafeDetailsProps {
 
 const CafeDetails: React.FC<CafeDetailsProps> = ({ cafe, onClose, onVoteUpdate }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const navigate = useNavigate();
 
 
   return (
@@ -26,6 +28,10 @@ const CafeDetails: React.FC<CafeDetailsProps> = ({ cafe, onClose, onVoteUpdate }
           <button className="maps-button" onClick={() => window.open(`https://maps.google.com/maps/search/?api=1&query=${encodeURIComponent(`${cafe.location?.address || ''}, ${cafe.location?.city || ''}, ${cafe.location?.country || ''}`)}`, '_blank')}>
             <img src="/icons/map-pin.svg" alt="Location" className="button-icon" />
             View on Maps
+          </button>
+          <button className="cafe-page-button" onClick={() => navigate(`/cafe/${cafe.id}`)}>
+            <img src="/icons/external-link.svg" alt="View Page" className="button-icon" />
+            View Full Page
           </button>
           <div className="vote-buttons">
             <UpvoteButton
