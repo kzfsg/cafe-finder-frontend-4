@@ -1,0 +1,453 @@
+/* CafePage Styles - All styles scoped to .cafe-page */
+.cafe-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Loading and Error States */
+.cafe-page .loading-container,
+.cafe-page .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.cafe-page .loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #6C63FF;
+  border-radius: 50%;
+  animation: cafe-page-spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes cafe-page-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cafe-page .error-container h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.cafe-page .error-container p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.cafe-page .back-home-btn {
+  background: #6C63FF;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cafe-page .back-home-btn:hover {
+  background: #5A52E0;
+}
+
+/* Hero Section */
+.cafe-page .hero-section {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.cafe-page .hero-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cafe-page .hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.cafe-page .hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cafe-page .hero-content {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.cafe-page .hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  white-space: nowrap;
+}
+
+.cafe-page .hero-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cafe-page .location-icon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.cafe-page .hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cafe-page .maps-btn,
+.cafe-page .back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.cafe-page .maps-btn:hover,
+.cafe-page .back-btn:hover {
+  background: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
+}
+
+/* Main Content */
+.cafe-page .main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* Info Cards */
+.cafe-page .info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.cafe-page .info-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cafe-page .info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.cafe-page .card-header {
+  margin-bottom: 1.5rem;
+}
+
+.cafe-page .card-header h3 {
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cafe-page .vote-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.cafe-page .quick-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.cafe-page .quick-info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.cafe-page .quick-info-item:hover {
+  background: #e9ecef;
+}
+
+.cafe-page .info-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cafe-page .info-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.cafe-page .info-value {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+/* Section Styles */
+.cafe-page .description-section,
+.cafe-page .gallery-section,
+.cafe-page .amenities-section,
+.cafe-page .reviews-section {
+  margin-bottom: 3rem;
+}
+
+.cafe-page .section-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cafe-page .section-header h2 {
+  color: #333;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.cafe-page .section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #6C63FF, #9F7AEA);
+  border-radius: 2px;
+}
+
+/* Description */
+.cafe-page .description-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cafe-page .description-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  margin: 0;
+  text-align: center;
+}
+
+/* Gallery */
+.cafe-page .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.cafe-page .gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.cafe-page .gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.cafe-page .gallery-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Amenities */
+.cafe-page .amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.cafe-page .amenity-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cafe-page .amenity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.cafe-page .amenity-icon {
+  font-size: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #6C63FF, #9F7AEA);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 60px;
+}
+
+.cafe-page .amenity-content h3 {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.cafe-page .amenity-content p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Reviews */
+.cafe-page .reviews-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cafe-page .hero-title {
+    font-size: 2.2rem;
+    color: white;
+  }
+  
+  .cafe-page .hero-location {
+    font-size: 1rem;
+  }
+  
+  .cafe-page .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cafe-page .maps-btn,
+  .cafe-page .back-btn {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+  }
+  
+  .cafe-page .main-content {
+    padding: 2rem 1rem;
+  }
+  
+  .cafe-page .info-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .cafe-page .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .cafe-page .quick-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cafe-page .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cafe-page .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .cafe-page .hero-section {
+    height: 50vh;
+    min-height: 300px;
+  }
+  
+  .cafe-page .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .cafe-page .hero-content {
+    padding: 0 1rem;
+  }
+  
+  .cafe-page .info-card {
+    padding: 1.5rem;
+  }
+  
+  .cafe-page .quick-info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cafe-page .amenity-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cafe-page .amenity-icon {
+    margin-bottom: 0.5rem;
+  }
+}
