@@ -21,10 +21,10 @@ const submissionService = {
         for (const image of formData.images) {
           const fileExt = image.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-          const filePath = `submissions/${user.id}/${fileName}`;
+          const filePath = `${user.id}/${fileName}`;
           
           const { error: uploadError } = await supabase.storage
-            .from('cafe-images')
+            .from('submissions')
             .upload(filePath, image);
           
           if (uploadError) {
@@ -33,7 +33,7 @@ const submissionService = {
           }
           
           const { data: { publicUrl } } = supabase.storage
-            .from('cafe-images')
+            .from('submissions')
             .getPublicUrl(filePath);
           
           imageUrls.push(publicUrl);
@@ -64,10 +64,7 @@ const submissionService = {
       const { data, error } = await supabase
         .from(SUBMISSIONS_TABLE)
         .insert(submissionData)
-        .select(`
-          *,
-          profiles:submitted_by(username)
-        `)
+        .select('*')
         .single();
       
       if (error) {
@@ -75,10 +72,21 @@ const submissionService = {
         throw error;
       }
       
-      return {
-        ...data,
-        submitted_by_username: data.profiles?.username
-      };
+      // Fetch username separately
+      if (data) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', data.submitted_by)
+          .single();
+          
+        return {
+          ...data,
+          submitted_by_username: profile?.username
+        };
+      }
+      
+      return data;
     } catch (error) {
       console.error('Error in submitCafe:', error);
       return null;
@@ -90,11 +98,7 @@ const submissionService = {
     try {
       let query = supabase
         .from(SUBMISSIONS_TABLE)
-        .select(`
-          *,
-          profiles:submitted_by(username),
-          admin_profiles:reviewed_by(username)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
       
       if (status) {
@@ -108,10 +112,25 @@ const submissionService = {
         throw error;
       }
       
-      return (data || []).map(submission => ({
+      // Fetch usernames for all submissions
+      const submissions = data || [];
+      const submissionIds = submissions.map(s => s.submitted_by);
+      const reviewerIds = submissions.map(s => s.reviewed_by).filter(Boolean);
+      const allUserIds = [...new Set([...submissionIds, ...reviewerIds])];
+      
+      if (allUserIds.length === 0) return submissions;
+      
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, username')
+        .in('id', allUserIds);
+        
+      const profileMap = new Map(profiles?.map(p => [p.id, p.username]) || []);
+      
+      return submissions.map(submission => ({
         ...submission,
-        submitted_by_username: submission.profiles?.username,
-        reviewed_by_username: submission.admin_profiles?.username
+        submitted_by_username: profileMap.get(submission.submitted_by),
+        reviewed_by_username: submission.reviewed_by ? profileMap.get(submission.reviewed_by) : undefined
       }));
     } catch (error) {
       console.error('Error in getAllSubmissions:', error);
