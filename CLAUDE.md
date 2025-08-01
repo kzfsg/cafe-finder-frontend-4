@@ -105,9 +105,10 @@ Uses Supabase with main tables:
 
 ### Image Storage System
 
-**Supabase Storage Bucket**: `cafe-images` 
-- **Structure**: `cafe-{id}/` folders containing all images for each cafe
-- **Example**: `cafe-1/image1.jpg`, `cafe-2/photo1.png`
+**Supabase Storage Buckets**: 
+- **`cafe-images`** - Approved cafe images with structure: `cafe-{id}/` folders containing all images for each cafe
+- **`submissions`** - User submission images with structure: `{user_id}/` folders for pending submissions
+- **Example**: `cafe-1/image1.jpg` (approved), `user-123/submission.png` (pending)
 - **Handling**: `cafeService.ts` contains `getCafeImageUrls()` function that fetches all images for a cafe and returns public URLs
 - **Fallback**: Uses `/images/no-image.svg` when no images exist
 
