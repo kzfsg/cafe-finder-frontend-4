@@ -11,8 +11,11 @@ This is a React + TypeScript social cafe discovery application built with Vite, 
 - **Development**: `npm run dev` - Start development server
 - **Build**: `npm run build` - TypeScript compilation + Vite build  
 - **Lint**: `npm run lint` - Run ESLint
+- **Type Check**: `tsc --noEmit` - TypeScript type checking without emitting files
 - **Preview**: `npm run preview` - Preview production build
 - **Deploy**: `npm run deploy` - Deploy to GitHub Pages (builds first)
+
+Note: No test runner is currently configured in this project.
 
 ## Architecture
 
@@ -145,3 +148,7 @@ Configured for GitHub Pages deployment with base path `/cafe-finder-frontend-v2`
 **Social Data Loading**: Feed and social features use separate queries to fetch core data first, then enrich with user profiles and cafe details to avoid foreign key relationship errors.
 
 **Legacy Compatibility**: Cafe interfaces maintain backward compatibility fields to support existing components while transitioning to new data structure.
+
+**Query Optimization**: TanStack Query is used extensively - always check existing queries before creating new ones to avoid duplicate network requests.
+
+**Authentication Checks**: Always use `useAuth()` hook from `AuthContext` for authentication state rather than directly accessing Supabase auth.

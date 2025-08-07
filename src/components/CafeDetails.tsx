@@ -5,6 +5,7 @@ import '../styles/CafeDetails.css';
 import UpvoteButton from './UpvoteButton';
 import DownvoteButton from './DownvoteButton';
 import ReviewSection from './ReviewSection';
+import BookmarkButton from './BookmarkButton';
 
 interface CafeDetailsProps {
   cafe: Cafe;
@@ -25,6 +26,7 @@ const CafeDetails: React.FC<CafeDetailsProps> = ({ cafe, onClose, onVoteUpdate }
       <header className="cafe-header">
         <h1 className="cafe-title">{cafe.title || cafe.name || 'Unnamed Cafe'}</h1>
         <div className="cafe-actions">
+          <BookmarkButton cafeId={cafe.id} className="cafe-details-bookmark" />
           <button className="maps-button" onClick={() => window.open(`https://maps.google.com/maps/search/?api=1&query=${encodeURIComponent(`${cafe.location?.address || ''}, ${cafe.location?.city || ''}, ${cafe.location?.country || ''}`)}`, '_blank')}>
             <img src="/icons/map-pin.svg" alt="Location" className="button-icon" />
             View on Maps
