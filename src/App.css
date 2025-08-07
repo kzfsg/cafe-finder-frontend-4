@@ -453,6 +453,49 @@ body {
   .masonry-container {
     gap: 10px;
   }
+  
+  /* Scale down all card components for mobile */
+  .cafe-card {
+    font-size: 0.85em; /* Base font-size reduction scales all em-based components */
+  }
+  
+  /* Additional mobile-specific scaling for title */
+  .cafe-title {
+    font-size: 1rem; /* Smaller title on mobile */
+  }
+  
+  /* Scale bookmark button more aggressively on mobile */
+  .bookmark-button {
+    width: 2em;
+    height: 2em;
+  }
+  
+  /* Scale amenities more on mobile */
+  .amenity {
+    width: 1.6em;
+    height: 1.6em;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) and (min-width: 481px) {
+  .cafe-card {
+    font-size: 0.9em; /* Moderate scaling for tablet */
+  }
+  
+  .cafe-title {
+    font-size: 1.1rem;
+  }
+  
+  .bookmark-button {
+    width: 2.2em;
+    height: 2.2em;
+  }
+  
+  .amenity {
+    width: 1.8em;
+    height: 1.8em;
+  }
 }
 
 /* Cafe Details Overlay */
