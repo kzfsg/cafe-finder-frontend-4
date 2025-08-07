@@ -2,6 +2,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .profile-button {
@@ -13,7 +15,19 @@
   cursor: pointer;
   padding: 4px;
   position: relative;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease;
+  margin-right: 8px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  min-width: fit-content;
+  width: auto;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .profile-button {
+    margin-right: 16px;
+  }
 }
 
 .profile-button:hover {
@@ -30,6 +44,8 @@
   height: 2px;
   background-color: #2E7D32;
   transition: width 0.2s ease;
+  backface-visibility: hidden;
+  will-change: width;
 }
 
 .profile-button:hover::after {
@@ -46,7 +62,11 @@
 .dropdown-arrow {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #666;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .dropdown-menu {
