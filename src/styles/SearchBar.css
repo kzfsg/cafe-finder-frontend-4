@@ -106,7 +106,7 @@
   .search-bar > div {
     width: 100%;
     padding: 0.8rem 0;
-    border-bottom: 1px solid hsl(0 0% 90%);
+    border-bottom: none; /* Remove bottom border dividers */
   }
   
   .search-bar > div:last-child {
@@ -114,7 +114,11 @@
   }
   
   .search-bar > div::before {
-    display: none;
+    display: none; /* Remove vertical dividers */
   }
   
+  /* Hide the orange search button on tablet and mobile */
+  .search-button {
+    display: none;
+  }
 }
