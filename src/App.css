@@ -423,24 +423,35 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .masonry-container {
-    display: flex;
-  }
-  
-  .masonry-column:nth-child(3) {
+/* Mobile navbar adjustments */
+@media (max-width: 480px) {
+  .navbar-left {
     display: none;
   }
-}
-
-@media (max-width: 600px) {
-  .masonry-container {
-    flex-direction: column;
+  
+  .navbar-center {
+    flex: 1;
+    margin: 0 5px;
+    max-width: none;
   }
   
-  .masonry-column:nth-child(2) {
-    display: none;
+  .navbar-right {
+    flex: 0 0 auto;
+    gap: 0.5rem;
+  }
+  
+  .auth-buttons {
+    gap: 5px;
+  }
+  
+  .auth-nav-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  /* Ensure proper spacing on mobile */
+  .masonry-container {
+    gap: 10px;
   }
 }
 
@@ -575,54 +586,55 @@ h3.cafe-title {
 /* Gallery indicators */
 .gallery-indicators {
   position: absolute;
-  bottom: 10px;
+  bottom: 0.8em;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 0.4em;
   z-index: 2;
 }
+
 
 /* Distance badge */
 .cafe-distance-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 0.8em;
+  left: 0.8em;
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
-  border-radius: 16px;
-  padding: 4px 10px;
+  border-radius: 1em;
+  padding: 0.3em 0.8em;
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 12px;
+  gap: 0.4em;
+  font-size: 0.75em;
   font-weight: 600;
   color: #555;
   z-index: 5;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.15em 0.4em rgba(0, 0, 0, 0.1);
   font-family: 'nunito';
 }
 
 .cafe-distance-badge img {
-  width: 14px;
-  height: 14px;
+  width: 1em;
+  height: 1em;
   opacity: 0.7;
 }
 
 .cafe-distance-badge:hover {
   background-color: white;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.15);
 }
 
 /* Bookmark button */
 .bookmark-amenities-container {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.8em;
+  right: 0.8em;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.6em;
   z-index: 10;
   align-items: center;
 }
@@ -631,14 +643,14 @@ h3.cafe-title {
   background-color: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 2.5em;
+  height: 2.5em;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.15em 0.4em rgba(0, 0, 0, 0.15);
   margin: 0;
   padding: 0;
   flex-shrink: 0;
@@ -647,7 +659,7 @@ h3.cafe-title {
 .bookmark-button:hover {
   background-color: white;
   transform: scale(1.1);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.15);
 }
 
 .bookmark-button.bookmarked {
@@ -656,9 +668,9 @@ h3.cafe-title {
 
 /* Bookmark button loading spinner */
 .button-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 87, 34, 0.2);
+  width: 1em;
+  height: 1em;
+  border: 0.125em solid rgba(255, 87, 34, 0.2);
   border-radius: 50%;
   border-top-color: #FF5722;
   animation: spin 0.8s linear infinite;
@@ -668,27 +680,29 @@ h3.cafe-title {
 .cafe-meta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  border-radius: 20px;
-  padding: 6px;
+  gap: 0.4em;
+  border-radius: 1.5em;
+  padding: 0.4em;
   pointer-events: auto;
 }
 
 /* Amenity icons */
 .cafe-amenities {
   display: flex;
-  gap: 6px;
+  gap: 0.4em;
 }
 
 .amenity {
-  width: 28px;
-  height: 28px;
+  width: 2em;
+  height: 2em;
   display: flex;
   align-items: center;
-  justify-content: center;  background: rgba(0, 0, 0, 0.1);
-  padding: 6px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.4em;
   box-sizing: border-box;
   transition: all 0.2s ease;
+  border-radius: 50%;
 }
 
 .amenity.available {
@@ -704,8 +718,8 @@ h3.cafe-title {
 }
 
 .amenity-icon {
-  width: 16px;
-  height: 16px;
+  width: 1em;
+  height: 1em;
   object-fit: contain;
   filter: brightness(0);
   transition: all 0.2s ease;
@@ -735,20 +749,20 @@ h3.cafe-title {
 /* Vote buttons in cafe card */
 .card-vote-buttons {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 0.8em;
+  right: 0.8em;
   display: flex;
-  gap: 8px;
+  gap: 0.5em;
   z-index: 5;
 }
 
 .cafe-gallery .upvote-button,
 .cafe-gallery .downvote-button {
   background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
-  padding: 4px 8px;
-  font-size: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5em;
+  padding: 0.3em 0.6em;
+  font-size: 0.75em;
+  box-shadow: 0 0.15em 0.4em rgba(0, 0, 0, 0.1);
 }
 
 .cafe-gallery .upvote-button:hover {
@@ -867,8 +881,8 @@ h3.cafe-title {
 }
 
 .bookmark-icon {
-  width: 18px;
-  height: 18px;
+  width: 1.2em;
+  height: 1.2em;
   transition: transform 0.3s ease;
 }
 
@@ -877,8 +891,8 @@ h3.cafe-title {
 }
 
 .indicator {
-  width: 6px;
-  height: 6px;
+  width: 0.4em;
+  height: 0.4em;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
@@ -886,8 +900,8 @@ h3.cafe-title {
 
 .indicator.active {
   background-color: white;
-  width: 8px;
-  height: 8px;
+  width: 0.5em;
+  height: 0.5em;
 }
 
 /* Amenity icon animations */

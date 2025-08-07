@@ -25,8 +25,31 @@ export default function HomePage() {
   const [displayedCafes, setDisplayedCafes] = useState<Cafe[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMoreCafes, setHasMoreCafes] = useState(true);
+  const [columns, setColumns] = useState(3); // Responsive columns
   const loaderRef = useRef<HTMLDivElement>(null);
   const batchSize = 12; // Number of cafes to load in each batch
+  
+  // Handle responsive columns based on screen size
+  useEffect(() => {
+    const updateColumns = () => {
+      if (window.innerWidth <= 768) {
+        setColumns(2); // Mobile: 2 columns
+      } else if (window.innerWidth <= 1024) {
+        setColumns(2); // Tablet: 2 columns 
+      } else {
+        setColumns(3); // Desktop: 3 columns
+      }
+    };
+    
+    // Set initial columns
+    updateColumns();
+    
+    // Add resize listener
+    window.addEventListener('resize', updateColumns);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
   
   // Get user location on component mount
   useEffect(() => {
@@ -261,7 +284,7 @@ export default function HomePage() {
         {/* Masonry Grid */}
         {displayedCafes.length > 0 ? (
           <>
-            <MasonryGrid columns={4}>
+            <MasonryGrid columns={columns}>
               {displayedCafes.map((cafe) => (
                 <CafeCard 
                   key={cafe.id}

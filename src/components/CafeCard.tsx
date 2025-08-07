@@ -100,30 +100,13 @@ export default function CafeCard({ id = 0, title, name, image, images = [], hasW
           />
         ))}
         
-        {/* Top bar with distance and actions */}
-        <div className="cafe-top-bar">
-          {/* Distance indicator */}
-          {distance !== undefined && (
-            <div className="cafe-distance-badge">
-              <img src="/icons/location.svg" alt="Distance" className="distance-icon" />
-              <span>{distance < 1 ? `${Math.round(distance * 1000)}m` : `${distance.toFixed(1)}km`}</span>
-            </div>
-          )}
-          
-          {/* Vote buttons */}
-          <div className="card-vote-buttons">
-            <UpvoteButton 
-              cafeId={id} 
-              upvotes={upvotes} 
-              onUpvote={onUpvote}
-            />
-            <DownvoteButton 
-              cafeId={id} 
-              downvotes={downvotes} 
-              onDownvote={onDownvote}
-            />
+        {/* Distance indicator at top left */}
+        {distance !== undefined && (
+          <div className="cafe-distance-badge">
+            <img src="/icons/location.svg" alt="Distance" className="distance-icon" />
+            <span>{distance < 1 ? `${Math.round(distance * 1000)}m` : `${distance.toFixed(1)}km`}</span>
           </div>
-        </div>
+        )}
         
         {/* Bottom overlay with title */}
         <div className="cafe-overlay">
@@ -173,6 +156,20 @@ export default function CafeCard({ id = 0, title, name, image, images = [], hasW
             ))}
           </div>
         )}
+        
+        {/* Vote buttons at bottom right */}
+        <div className="card-vote-buttons">
+          <UpvoteButton 
+            cafeId={id} 
+            upvotes={upvotes} 
+            onUpvote={onUpvote}
+          />
+          <DownvoteButton 
+            cafeId={id} 
+            downvotes={downvotes} 
+            onDownvote={onDownvote}
+          />
+        </div>
       </div>
     </div>
   );
